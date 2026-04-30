@@ -11,12 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Bungee&family=Kalam:wght@400;700&family=Special+Elite&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-/* =============================================================
-   WINKY · INTERDIMENSIONAL GROWTH STRATEGIST
-   Rick-and-Morty-flavoured portfolio
-   Cream paper + portal green + slime + brick red
-   ============================================================= */
-
 :root {
   --paper: #f3ead2;
   --paper-dark: #ead8a3;
@@ -53,16 +47,6 @@ body {
 }
 ::selection { background: var(--portal); color: var(--ink); }
 
-/* ============================================================
-   中文模式专属排版优化
-   触发：body.lang-zh（由 JS 切换）
-   思路：
-   - 段落正文换衬线（Noto Serif SC），行高放松到 1.95
-   - 字号微调到 1.02rem（比英文略小，因为中文方块字密度更高）
-   - 段落里夹的英文术语（Bowlby、Bungee、typewriter）保持原英文字体
-     ——这些都用 .hero-sub b、em、strong 等 inline 元素单独控制
-   - "字符间距"打开 0.02em，让中英混排不挤
-   ============================================================ */
 body.lang-zh .hero-sub,
 body.lang-zh .about-bio,
 body.lang-zh .lab-intro,
@@ -88,7 +72,6 @@ body.lang-zh .lab-card-desc {
   line-height: 1.85;
 }
 
-/* 段落里夹的英文术语 / 数字 / 高亮，强制保持英文字体不变 */
 body.lang-zh .hero-sub b,
 body.lang-zh .about-bio strong,
 body.lang-zh .exp-bullets b,
@@ -115,7 +98,6 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
 }
 
-/* ================ DECORATIVE ELEMENTS ================ */
 .deco {
   position: absolute;
   pointer-events: none;
@@ -150,7 +132,6 @@ body::before {
 }
 .wobble { animation: wobble 3s ease-in-out infinite; }
 
-/* ================ NAV ================ */
 .nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -240,18 +221,53 @@ body::before {
   background: var(--portal);
   transform: rotate(-2deg);
 }
+.menu-toggle {
+  display: none;
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--ink);
+  background: var(--paper-dark);
+  border-radius: 10px;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  transition: all 0.2s;
+}
+.menu-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--ink);
+  transition: transform 0.2s, opacity 0.2s;
+}
+.menu-toggle:hover {
+  background: var(--portal);
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: rotate(-2deg);
+}
+.menu-toggle.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.menu-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 880px) {
   .nav-links { gap: 0.6rem; }
   .nav-links a { font-size: 0.75rem; padding: 0.25rem 0.4rem; }
   .lang-toggle { font-size: 0.7rem; padding: 0.25rem 0.6rem; }
 }
-@media (max-width: 600px) {
-  .nav-links a { display: none; }
-}
 
-/* ================ HERO ================ */
 .hero {
   min-height: 100vh;
+  min-height: 100svh;
   position: relative;
   padding: 8rem 2rem 4rem;
   overflow: hidden;
@@ -397,7 +413,6 @@ body::before {
   animation: bob 2s ease-in-out infinite;
 }
 
-/* ================ ABOUT ================ */
 .about {
   scroll-margin-top: 90px;
   padding: 8rem 2rem;
@@ -562,7 +577,6 @@ body::before {
   box-shadow: 3px 3px 0 var(--ink);
 }
 
-/* ================ EXPERIENCE ================ */
 .experience {
   scroll-margin-top: 90px;
   padding: 8rem 2rem;
@@ -727,7 +741,6 @@ body::before {
   .exp-tags { flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
 }
 
-/* ================ MANIFESTO ================ */
 .manifesto {
   background: var(--portal);
   color: var(--ink);
@@ -765,7 +778,6 @@ body::before {
   font-weight: 400;
 }
 
-/* ================ PROJECTS ================ */
 .projects {
   scroll-margin-top: 90px;
   padding: 8rem 2rem;
@@ -866,7 +878,6 @@ body::before {
 }
 .project-card.featured .project-meta span::before { color: var(--ink); }
 
-/* ================ VIBE CODING (LAB) ================ */
 .lab {
   scroll-margin-top: 90px;
   padding: 8rem 2rem;
@@ -913,7 +924,7 @@ body::before {
 
 .lab-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   gap: 1.5rem;
 }
 .lab-card {
@@ -929,6 +940,7 @@ body::before {
   overflow: hidden;
   box-shadow: 6px 6px 0 var(--portal);
   min-height: 380px;
+  min-width: 0;
 }
 .lab-card:hover {
   transform: translate(-4px, -4px);
@@ -1038,7 +1050,6 @@ body::before {
 }
 .lab-card:hover .lab-card-link { color: var(--portal-deep); }
 
-/* ================ SKILLS ================ */
 .skills {
   scroll-margin-top: 90px;
   padding: 8rem 2rem;
@@ -1074,6 +1085,7 @@ body::before {
   border: 3px solid var(--ink);
   box-shadow: 5px 5px 0 var(--ink);
   transition: transform 0.2s;
+  min-width: 0;
 }
 .skills-cat:hover {
   transform: translate(-2px, -2px);
@@ -1125,7 +1137,6 @@ body::before {
   color: var(--paper);
 }
 
-/* ================ CONTACT ================ */
 .contact {
   scroll-margin-top: 90px;
   padding: 9rem 2rem 6rem;
@@ -1187,7 +1198,7 @@ body::before {
   transform: translate(-3px, -3px) rotate(-2deg);
   box-shadow: 5px 5px 0 var(--paper);
 }
-.contact-link svg { width: 18px; height: 18px; }
+.contact-link svg { width: 18px; height: 18px; flex-shrink: 0; }
 .contact-quote {
   font-family: var(--font-typewriter);
   font-size: 0.8rem;
@@ -1197,7 +1208,6 @@ body::before {
 }
 .contact-quote::before { content: '// '; color: var(--portal); }
 
-/* ================ FOOTER ================ */
 .footer {
   padding: 1.8rem 2rem;
   background: var(--ink);
@@ -1214,7 +1224,6 @@ body::before {
   .footer { flex-direction: column; gap: 0.8rem; text-align: center; }
 }
 
-/* ================ ANIMATIONS ================ */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -1222,11 +1231,263 @@ body::before {
 }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
+@media (max-width: 600px) {
+  html {
+    scroll-padding-top: 78px;
+  }
+
+  .nav {
+    padding: 0.85rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .nav-left {
+    gap: 0.65rem;
+    min-width: 0;
+  }
+
+  .nav-logo {
+    font-size: 1.12rem;
+    min-width: 0;
+  }
+
+  .nav-logo .star {
+    width: 18px;
+    height: 18px;
+  }
+
+  .lang-toggle {
+    font-size: 0.66rem;
+    padding: 0.24rem 0.55rem;
+    flex-shrink: 0;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 1rem;
+    left: 1rem;
+    display: none;
+    flex-direction: column;
+    gap: 0.2rem;
+    list-style: none;
+    padding: 0.8rem;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    z-index: 120;
+  }
+
+  .nav-links.is-open {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 0.85rem 0.9rem;
+    font-size: 0.82rem;
+    background: transparent;
+  }
+
+  .nav-links a:hover {
+    transform: none;
+  }
+
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 7rem 1rem 3rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 16vw, 4.4rem);
+    text-shadow: 4px 4px 0 var(--portal);
+  }
+
+  .hero-title .row-2 {
+    -webkit-text-stroke: 2px var(--ink);
+    text-shadow: 4px 4px 0 var(--brick);
+  }
+
+  .hero-tag {
+    font-size: 0.72rem;
+    padding: 0.45rem 0.9rem;
+    text-align: center;
+  }
+
+  .hero-sub {
+    font-size: 0.94rem;
+    line-height: 1.8;
+    max-width: 100%;
+  }
+
+  .hero-meta {
+    gap: 0.5rem;
+  }
+
+  .hero-meta span {
+    font-size: 0.72rem;
+    padding: 0.28rem 0.55rem;
+  }
+
+  .about,
+  .experience,
+  .projects,
+  .lab,
+  .skills,
+  .contact,
+  .manifesto {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .about,
+  .experience,
+  .projects,
+  .lab,
+  .skills {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .contact {
+    padding: 7rem 1rem 5rem;
+  }
+
+  .about-photo-area {
+    position: static;
+    top: auto;
+  }
+
+  .about-photo {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .about-bio,
+  .lab-intro,
+  .project-desc,
+  .lab-card-desc,
+  .exp-bullets {
+    max-width: 100%;
+  }
+
+  .projects-headline,
+  .skills-headline,
+  .lab-headline,
+  .experience-headline,
+  .about-headline {
+    margin-bottom: 2rem;
+  }
+
+  .project-grid,
+  .lab-grid,
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card,
+  .lab-card,
+  .skills-cat {
+    min-width: 0;
+  }
+
+  .project-card,
+  .skills-cat {
+    padding: 1.4rem;
+  }
+
+  .lab-card-preview {
+    padding: 0.85rem 1rem;
+    flex-wrap: wrap;
+    row-gap: 0.35rem;
+  }
+
+  .lab-card-preview .url {
+    margin-left: 0;
+    width: 100%;
+    font-size: 0.62rem;
+  }
+
+  .lab-card-body {
+    padding: 1.2rem;
+  }
+
+  .contact-headline {
+    font-size: clamp(2.6rem, 16vw, 4.8rem);
+    text-shadow: 5px 5px 0 var(--portal-deep);
+  }
+
+  .contact-sub {
+    font-size: 1.1rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .contact-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+
+  .contact-link {
+    width: 100%;
+    justify-content: center;
+    padding: 0.95rem 1rem;
+    font-size: 0.78rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-quote {
+    font-size: 0.72rem;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+    margin-top: 2rem;
+  }
+
+  .footer {
+    padding: 1.2rem 1rem;
+    font-size: 0.64rem;
+    line-height: 1.6;
+  }
+
+  .deco {
+    opacity: 0.75;
+  }
+
+  .deco svg {
+    transform: scale(0.82);
+    transform-origin: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
 </style>
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
 <nav class="nav">
   <div class="nav-left">
     <a href="#hero" class="nav-logo">
@@ -1235,7 +1496,21 @@ body::before {
     </a>
     <button id="langToggle" class="lang-toggle" type="button">EN / 中</button>
   </div>
-  <ul class="nav-links">
+
+  <button
+    id="menuToggle"
+    class="menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="navLinks"
+    aria-label="Open menu"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <ul class="nav-links" id="navLinks">
     <li><a href="#experience">work</a></li>
     <li><a href="#projects">cases</a></li>
     <li><a href="#lab">lab</a></li>
@@ -1244,11 +1519,8 @@ body::before {
   </ul>
 </nav>
 
-<!-- ============ HERO ============ -->
 <section class="hero" id="hero">
-
-  <!-- Big portal top-left -->
-  <div class="deco" style="top: 11%; left: 4%;">
+  <div class="deco" style="top: 11%; left: 4%;" aria-hidden="true">
     <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="portalG" cx="50%" cy="50%">
@@ -1266,8 +1538,7 @@ body::before {
     </svg>
   </div>
 
-  <!-- Eyeball top-right -->
-  <div class="deco bob" style="top: 14%; right: 8%; --rot: 8deg;">
+  <div class="deco bob" style="top: 14%; right: 8%; --rot: 8deg;" aria-hidden="true">
     <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="40" cy="40" rx="36" ry="32" fill="#f3ead2" stroke="#1a1410" stroke-width="3"/>
       <circle cx="44" cy="38" r="14" fill="#97ce4c" stroke="#1a1410" stroke-width="2.5"/>
@@ -1278,8 +1549,7 @@ body::before {
     </svg>
   </div>
 
-  <!-- Tentacle creature bottom-left -->
-  <div class="deco wobble" style="bottom: 12%; left: 7%; --rot: 5deg;">
+  <div class="deco wobble" style="bottom: 12%; left: 7%; --rot: 5deg;" aria-hidden="true">
     <svg width="100" height="120" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="50" cy="40" rx="34" ry="32" fill="#4ec5b8" stroke="#1a1410" stroke-width="3"/>
       <circle cx="35" cy="30" r="4" fill="#1a1410" opacity="0.3"/>
@@ -1296,16 +1566,14 @@ body::before {
     </svg>
   </div>
 
-  <!-- Star burst right -->
-  <div class="deco bob-slow" style="top: 50%; right: 14%; --rot: -10deg;">
+  <div class="deco bob-slow" style="top: 50%; right: 14%; --rot: -10deg;" aria-hidden="true">
     <svg width="55" height="55" viewBox="0 0 55 55">
       <path d="M27.5 2 L33 22 L52 22 L37 33 L42 52 L27.5 41 L13 52 L18 33 L3 22 L22 22 Z" fill="#e3a72f" stroke="#1a1410" stroke-width="2.5"/>
       <circle cx="27.5" cy="27.5" r="4" fill="#1a1410"/>
     </svg>
   </div>
 
-  <!-- Slime drip bottom-right -->
-  <div class="deco wobble" style="bottom: 18%; right: 6%; --rot: -3deg;">
+  <div class="deco wobble" style="bottom: 18%; right: 6%; --rot: -3deg;" aria-hidden="true">
     <svg width="70" height="90" viewBox="0 0 70 90">
       <path d="M10 10 L60 10 L60 50 Q60 70 45 80 Q35 88 25 80 Q10 70 10 50 Z" fill="#d6ee5d" stroke="#1a1410" stroke-width="3"/>
       <ellipse cx="22" cy="30" rx="5" ry="3" fill="#fff" opacity="0.5"/>
@@ -1314,8 +1582,7 @@ body::before {
     </svg>
   </div>
 
-  <!-- Tiny floating thing -->
-  <div class="deco bob" style="top: 28%; left: 15%;">
+  <div class="deco bob" style="top: 28%; left: 15%;" aria-hidden="true">
     <svg width="30" height="30" viewBox="0 0 30 30">
       <circle cx="15" cy="15" r="12" fill="#c44536" stroke="#1a1410" stroke-width="2"/>
       <circle cx="11" cy="13" r="2" fill="#fff"/>
@@ -1323,14 +1590,12 @@ body::before {
     </svg>
   </div>
 
-  <!-- Squiggle line -->
-  <div class="deco" style="top: 35%; right: 4%;">
+  <div class="deco" style="top: 35%; right: 4%;" aria-hidden="true">
     <svg width="90" height="30" viewBox="0 0 90 30">
       <path d="M 5 15 Q 15 5, 25 15 T 45 15 T 65 15 T 85 15" stroke="#1a1410" stroke-width="3" fill="none" stroke-linecap="round"/>
     </svg>
   </div>
 
-  <!-- HERO CONTENT -->
   <div class="hero-tag">
     <span>STATUS: ALIVE · OPEN TO WORK</span>
   </div>
@@ -1342,7 +1607,7 @@ body::before {
 
   <p class="hero-sub" id="heroSub">
     Growth operator across <b>Web3</b>, <b>Fintech</b> &amp; <b>SocialFi</b> &mdash; turning user insight into scalable systems<br>
-    Currently building <em>AI-assisted internal tools</em> with Claude Code &amp; Codex<br>
+    Currently building <em>AI-assisted internal tools</em> with Claude Code &amp; Codex
   </p>
 
   <div class="hero-meta">
@@ -1356,10 +1621,8 @@ body::before {
   </div>
 </section>
 
-<!-- ============ ABOUT ============ -->
 <section class="about" id="about">
-
-  <div class="deco bob" style="top: 8%; right: 6%;">
+  <div class="deco bob" style="top: 8%; right: 6%;" aria-hidden="true">
     <svg width="70" height="70" viewBox="0 0 70 70">
       <g class="spin-rev">
         <circle cx="35" cy="35" r="30" fill="#97ce4c" stroke="#1a1410" stroke-width="2.5"/>
@@ -1369,7 +1632,7 @@ body::before {
     </svg>
   </div>
 
-  <div class="deco wobble" style="bottom: 10%; left: 4%; --rot: -8deg;">
+  <div class="deco wobble" style="bottom: 10%; left: 4%; --rot: -8deg;" aria-hidden="true">
     <svg width="80" height="80" viewBox="0 0 80 80">
       <path d="M40 5 Q60 5 65 25 Q75 35 65 55 Q60 75 40 75 Q20 75 15 55 Q5 35 15 25 Q20 5 40 5 Z" fill="#c44536" stroke="#1a1410" stroke-width="3"/>
       <ellipse cx="30" cy="35" rx="6" ry="8" fill="#fff" stroke="#1a1410" stroke-width="2"/>
@@ -1382,7 +1645,6 @@ body::before {
   </div>
 
   <div class="about-inner">
-
     <div class="about-photo-area">
       <div class="about-photo">
         <div class="about-photo-tape"></div>
@@ -1429,10 +1691,8 @@ body::before {
   </div>
 </section>
 
-<!-- ============ EXPERIENCE ============ -->
 <section class="experience" id="experience">
-
-  <div class="deco bob" style="top: 6%; right: 5%;">
+  <div class="deco bob" style="top: 6%; right: 5%;" aria-hidden="true">
     <svg width="80" height="80" viewBox="0 0 80 80">
       <g class="spin">
         <circle cx="40" cy="40" r="34" fill="#97ce4c" stroke="#f3ead2" stroke-width="2.5"/>
@@ -1442,7 +1702,7 @@ body::before {
     </svg>
   </div>
 
-  <div class="deco wobble" style="top: 50%; right: 3%; --rot: 10deg;">
+  <div class="deco wobble" style="top: 50%; right: 3%; --rot: 10deg;" aria-hidden="true">
     <svg width="50" height="50" viewBox="0 0 50 50">
       <ellipse cx="25" cy="25" rx="22" ry="20" fill="#f3ead2" stroke="#1a1410" stroke-width="2.5"/>
       <circle cx="27" cy="25" r="9" fill="#c44536" stroke="#1a1410" stroke-width="2"/>
@@ -1531,10 +1791,8 @@ body::before {
   </div>
 </section>
 
-<!-- ============ MANIFESTO ============ -->
 <section class="manifesto">
-
-  <div class="deco bob" style="top: 15%; right: 8%; --rot: -10deg;">
+  <div class="deco bob" style="top: 15%; right: 8%; --rot: -10deg;" aria-hidden="true">
     <svg width="100" height="100" viewBox="0 0 100 100">
       <circle cx="50" cy="50" r="44" fill="#1a1410" stroke="#1a1410" stroke-width="3"/>
       <ellipse cx="50" cy="55" rx="22" ry="28" fill="#c44536"/>
@@ -1547,7 +1805,7 @@ body::before {
     </svg>
   </div>
 
-  <div class="deco wobble" style="bottom: 15%; left: 6%; --rot: 8deg;">
+  <div class="deco wobble" style="bottom: 15%; left: 6%; --rot: 8deg;" aria-hidden="true">
     <svg width="60" height="60" viewBox="0 0 60 60">
       <path d="M30 5 L36 22 L54 22 L40 33 L45 52 L30 41 L15 52 L20 33 L6 22 L24 22 Z" fill="#1a1410" stroke="#1a1410" stroke-width="2"/>
     </svg>
@@ -1563,10 +1821,8 @@ body::before {
   </div>
 </section>
 
-<!-- ============ PROJECTS ============ -->
 <section class="projects" id="projects">
-
-  <div class="deco bob-slow" style="top: 5%; right: 5%;">
+  <div class="deco bob-slow" style="top: 5%; right: 5%;" aria-hidden="true">
     <svg width="70" height="70" viewBox="0 0 70 70">
       <g class="spin-rev">
         <circle cx="35" cy="35" r="30" fill="#4ec5b8" stroke="#1a1410" stroke-width="2.5"/>
@@ -1576,7 +1832,7 @@ body::before {
     </svg>
   </div>
 
-  <div class="deco wobble" style="bottom: 8%; left: 3%; --rot: -5deg;">
+  <div class="deco wobble" style="bottom: 8%; left: 3%; --rot: -5deg;" aria-hidden="true">
     <svg width="80" height="90" viewBox="0 0 80 90">
       <path d="M15 30 Q15 10 40 10 Q65 10 65 30 L65 65 Q65 80 50 85 Q40 90 30 85 Q15 80 15 65 Z" fill="#d6ee5d" stroke="#1a1410" stroke-width="3"/>
       <ellipse cx="40" cy="40" rx="14" ry="16" fill="#fff" stroke="#1a1410" stroke-width="2.5"/>
@@ -1594,7 +1850,6 @@ body::before {
     </h2>
 
     <div class="project-grid">
-      <!-- CASE 01 — $5 BTC LuckyShare (FEATURED) -->
       <div class="project-card featured reveal">
         <div>
           <p class="project-num">★ FEATURED CASE</p>
@@ -1608,7 +1863,6 @@ body::before {
         </div>
       </div>
 
-      <!-- CASE 02 — Crypto Desktop / Standalone Page push -->
       <div class="project-card color-2 reveal">
         <div>
           <p class="project-num">// CASE 02</p>
@@ -1622,7 +1876,6 @@ body::before {
         </div>
       </div>
 
-      <!-- CASE 03 — Whale Recall Campaign (MEXC) -->
       <div class="project-card color-3 reveal">
         <div>
           <p class="project-num">// CASE 03</p>
@@ -1636,7 +1889,6 @@ body::before {
         </div>
       </div>
 
-      <!-- CASE 04 — KOL Onboarding (Tako) -->
       <div class="project-card color-4 reveal">
         <div>
           <p class="project-num">// CASE 04</p>
@@ -1653,7 +1905,6 @@ body::before {
   </div>
 </section>
 
-<!-- ============ LOOKING FOR ============ -->
 <section class="manifesto">
   <div class="manifesto-inner">
     <p class="manifesto-text" id="lookingForText">
@@ -1666,10 +1917,8 @@ body::before {
   </div>
 </section>
 
-<!-- ============ VIBE CODING / LAB ============ -->
 <section class="lab" id="lab">
-
-  <div class="deco bob" style="top: 6%; right: 6%;">
+  <div class="deco bob" style="top: 6%; right: 6%;" aria-hidden="true">
     <svg width="70" height="80" viewBox="0 0 70 80">
       <rect x="15" y="20" width="40" height="45" rx="5" fill="#6b3fa0" stroke="#f3ead2" stroke-width="2.5"/>
       <line x1="35" y1="20" x2="35" y2="8" stroke="#f3ead2" stroke-width="2.5"/>
@@ -1697,8 +1946,6 @@ body::before {
     </p>
 
     <div class="lab-grid">
-
-      <!-- TOOL 01 — Sakura Rewrite -->
       <a href="https://style-rewriter.vercel.app" target="_blank" rel="noopener" class="lab-card">
         <div class="lab-card-preview">
           <span class="dots"><span></span><span></span><span></span></span>
@@ -1720,7 +1967,6 @@ body::before {
         </div>
       </a>
 
-      <!-- Empty slot 1 -->
       <div class="lab-card empty" id="emptySlot1">
         <div>
           <div style="font-size: 2rem; margin-bottom: 0.6rem;">✦</div>
@@ -1729,7 +1975,6 @@ body::before {
         </div>
       </div>
 
-      <!-- Empty slot 2 -->
       <div class="lab-card empty" id="emptySlot2">
         <div>
           <div style="font-size: 2rem; margin-bottom: 0.6rem;">◇</div>
@@ -1737,15 +1982,12 @@ body::before {
           <span style="font-size: 0.7rem; opacity: 0.7;">/ vibe coding /</span>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ============ SKILLS ============ -->
 <section class="skills" id="skills">
-
-  <div class="deco bob" style="top: 8%; right: 6%;">
+  <div class="deco bob" style="top: 8%; right: 6%;" aria-hidden="true">
     <svg width="70" height="80" viewBox="0 0 70 80">
       <rect x="15" y="20" width="40" height="45" rx="5" fill="#6b3fa0" stroke="#1a1410" stroke-width="2.5"/>
       <line x1="35" y1="20" x2="35" y2="8" stroke="#1a1410" stroke-width="2.5"/>
@@ -1805,10 +2047,8 @@ body::before {
   </div>
 </section>
 
-<!-- ============ CONTACT ============ -->
 <section class="contact" id="contact">
-
-  <div class="deco bob" style="top: 12%; left: 8%;">
+  <div class="deco bob" style="top: 12%; left: 8%;" aria-hidden="true">
     <svg width="120" height="120" viewBox="0 0 120 120">
       <g class="spin">
         <circle cx="60" cy="60" r="54" fill="#97ce4c" stroke="#f3ead2" stroke-width="3"/>
@@ -1819,7 +2059,7 @@ body::before {
     </svg>
   </div>
 
-  <div class="deco wobble" style="bottom: 18%; right: 6%; --rot: -10deg;">
+  <div class="deco wobble" style="bottom: 18%; right: 6%; --rot: -10deg;" aria-hidden="true">
     <svg width="100" height="120" viewBox="0 0 100 120">
       <ellipse cx="50" cy="55" rx="34" ry="42" fill="#4ec5b8" stroke="#f3ead2" stroke-width="3"/>
       <circle cx="35" cy="40" r="7" fill="#f3ead2" stroke="#1a1410" stroke-width="2"/>
@@ -1863,14 +2103,12 @@ body::before {
   </div>
 </section>
 
-<!-- ============ FOOTER ============ -->
 <footer class="footer">
   <div>© 2026 WINKY · transmitted across dimensions</div>
   <div>v2.1 · made with Claude Code &amp; coffee</div>
 </footer>
 
 <script>
-/* ================ LANGUAGE TOGGLE ================ */
 (function() {
   const content = {
     en: {
@@ -1967,7 +2205,7 @@ body::before {
 
       manifestoText: 'Growth isn\'t a campaign.<br>It\'s a <span class="invert">system</span><br>built on listening.<span class="small">— what I actually believe</span>',
       lookingForText: 'Looking for roles in<br><span class="invert">Growth · BD · AI GTM</span><span class="small">where user insight, product value &amp; scalable execution meet.</span>',
-      
+
       eyebrowProj: '// 精选案例',
       projHeadline: '跑过的<span class="green">CASE</span>',
       case1Title: '$5 BTC LuckyShare<br>跨品类转化机制',
@@ -2018,36 +2256,94 @@ body::before {
   }
 })();
 
-/* reveal on scroll */
 (function() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+    return;
+  }
+
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) entry.target.classList.add('is-visible');
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 })();
 
-/* deco parallax on mouse */
 (function() {
   const decos = document.querySelectorAll('.deco');
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!canHover || reduceMotion) {
+    decos.forEach((el) => {
+      el.style.transform = '';
+    });
+    return;
+  }
+
   let mx = 0.5, my = 0.5, tx = 0.5, ty = 0.5;
+
   document.addEventListener('mousemove', (e) => {
     tx = e.clientX / window.innerWidth;
     ty = e.clientY / window.innerHeight;
   });
+
   function loop() {
     mx += (tx - mx) * 0.05;
     my += (ty - my) * 0.05;
+
     decos.forEach((el, i) => {
       const power = (i % 4 + 1) * 6;
       const ox = (mx - 0.5) * power;
       const oy = (my - 0.5) * power;
-      el.style.translate = `${ox}px ${oy}px`;
+      el.style.transform = `translate(${ox}px, ${oy}px)`;
     });
+
     requestAnimationFrame(loop);
   }
+
   loop();
+})();
+
+(function() {
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  if (!menuToggle || !navLinks) return;
+
+  function closeMenu() {
+    menuToggle.classList.remove('is-open');
+    navLinks.classList.remove('is-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function openMenu() {
+    menuToggle.classList.add('is-open');
+    navLinks.classList.add('is-open');
+    menuToggle.setAttribute('aria-expanded', 'true');
+  }
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.contains('is-open');
+    if (isOpen) closeMenu();
+    else openMenu();
+  });
+
+  navLinks.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 600) closeMenu();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+      closeMenu();
+    }
+  });
 })();
 </script>
 </body>
